@@ -78,7 +78,7 @@ RUN apt-get update && apt-get install -y \
       pcntl
 
 # Download and install diskus
-RUN curl -sL -o diskus.deb https://github.com/sharkdp/diskus/releases/download/v0.8.0/diskus_0.8.0_amd64.deb && \
+RUN curl -sL -o diskus.deb https://github.com/sharkdp/diskus/releases/download/v0.8.0/diskus_0.8.0_$(dpkg --print-architecture).deb && \
   dpkg -i diskus.deb && \
   rm -f diskus.deb
 
