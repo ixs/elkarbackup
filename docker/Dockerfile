@@ -24,8 +24,10 @@ RUN mkdir -p -m 777 \
       /app/.ssh
 
 # Download and install composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
 
+# Set environment variable to allow Composer to run as root (inside Docker)
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ENV DOCKERDIR=./docker/
 
@@ -87,6 +89,7 @@ COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
 COPY --from=0 /app /app
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV DOCKERDIR=./docker/
 
 # Apache configuration
@@ -113,6 +116,9 @@ RUN printf '[PHP]\ndate.timezone = "Europe/Paris"\n' > /usr/local/etc/php/conf.d
 
 COPY $DOCKERDIR/entrypoint.sh /
 COPY $DOCKERDIR/envars.sh /
+
+WORKDIR /app/elkarbackup
+
 RUN chmod u+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD []

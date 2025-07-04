@@ -16,7 +16,7 @@ services:
       - 8000:80
     
   db:
-    image: mysql:5.7.22
+    image: mariadb:lts
     environment:
       MARIADB_ROOT_PASSWORD: "your-password-here"
     volumes:
