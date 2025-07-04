@@ -273,7 +273,7 @@ class RunJobCommand extends LoggingCommand
         
         /* setDiskUsage()*/
         $this->info('Client "%clientid%", Job "%jobid%" du begin.', array('%clientid%' => $job->getClient()->getId(), '%jobid%' => $job->getId()), $context);
-        $du = (int)shell_exec(sprintf("du -ks '%s' | sed 's/\t.*//'", $job->getSnapshotRoot()));
+        $du = (int)shell_exec(sprintf("diskus '%s' | awk -F '[() ]' '{gsub(\",\", \"\", $4); print $4 / 1024}'", $job->getSnapshotRoot()));
         $job->setDiskUsage($du);
         $this->info('Client "%clientid%", Job "%jobid%" du end.', array('%clientid%' => $job->getClient()->getId(), '%jobid%' => $job->getId()), $context);
         
