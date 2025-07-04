@@ -78,7 +78,9 @@ RUN apt-get update && apt-get install -y \
       pcntl
 
 # Download and install diskus
-RUN curl -sL https://github.com/sharkdp/diskus/releases/download/v0.8.0/diskus_0.8.0_amd64.deb | dpkg -i -
+RUN curl -sL -o diskus.deb https://github.com/sharkdp/diskus/releases/download/v0.8.0/diskus_0.8.0_amd64.deb && \
+  dpkg -i diskus.deb && \
+  rm -f diskus.deb
 
 # Download and install composer
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
