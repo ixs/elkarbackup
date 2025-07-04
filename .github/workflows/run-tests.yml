@@ -1,11 +1,22 @@
 name: Test
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Docker Compose CLI
+        uses: docker/setup-compose@v2
+
       - name: Run test suite
         run: docker-compose -f docker/test/docker-compose.yml up --abort-on-container-exit --exit-code-from elkarbackup
