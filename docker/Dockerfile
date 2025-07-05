@@ -127,6 +127,7 @@ VOLUME /app/backups
 EXPOSE 80
 
 LABEL maintainer="Andreas Thienemann <andreas@bawue.net>"
+LABEL org.opencontainers.image.description="ixs' Elkarbackup fork"
 LABEL org.opencontainers.image.source=https://github.com/ixs/elkarbackup
 LABEL org.opencontainers.image.url=https://github.com/ixs/elkarbackup/blob/master/docker/README.md
 LABEL org.opencontainers.image.documentation=https://github.com/ixs/elkarbackup/blob/master/docker/README.md
