@@ -5,11 +5,11 @@ DIR="$(dirname "$(readlink -f "$0")")"
 echo "::group::Dockerized tests"
 docker compose -f "${DIR}/docker-compose.yml" up --abort-on-container-exit --exit-code-from elkarbackup
 err=$?
-echo "::endgrooup::"
+echo "::endgroup::"
 
 echo "::group::Cleanup"
 docker compose -f "${DIR}/docker-compose.yml" down
-echo "::endgrooup::"
+echo "::endgroup::"
 
 if [ "$err" -eq 0 ]; then
     echo -e "\033[1;32m✅ Success: All checks passed!\033[0m"
