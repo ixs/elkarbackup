@@ -24,8 +24,10 @@ RUN mkdir -p -m 777 \
       /app/.ssh
 
 # Download and install composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
 
+# Set environment variable to allow Composer to run as root (inside Docker)
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ENV DOCKERDIR=./docker/
 
@@ -40,9 +42,6 @@ RUN set -ex; \
       # copy a file to a hardcoded path it does not exist in this docker image.
       # We can disable it without negative consequences
       rm migrations/Version20130306101349.php;
-
-## Custom composer.json (database not required)
-COPY $DOCKERDIR/composer.json.docker /app/elkarbackup/composer.json
 
 ## Custom parameters.yml template with envars
 COPY $DOCKERDIR/parameters.yaml.docker /app/elkarbackup/config/parameters.yaml.dist
@@ -83,7 +82,7 @@ RUN apt-get update && apt-get install -y \
       pcntl
 
 # Download and install diskus
-RUN curl -sL -o diskus.deb https://github.com/sharkdp/diskus/releases/download/v0.8.0/diskus_0.8.0_amd64.deb && \
+RUN curl -sL -o diskus.deb https://github.com/sharkdp/diskus/releases/download/v0.8.0/diskus_0.8.0_$(dpkg --print-architecture).deb && \
   dpkg -i diskus.deb && \
   rm -f diskus.deb
 
@@ -92,6 +91,7 @@ COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
 COPY --from=0 /app /app
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV DOCKERDIR=./docker/
 
 # Apache configuration
@@ -118,6 +118,9 @@ RUN printf '[PHP]\ndate.timezone = "Europe/Paris"\n' > /usr/local/etc/php/conf.d
 
 COPY $DOCKERDIR/entrypoint.sh /
 COPY $DOCKERDIR/envars.sh /
+
+WORKDIR /app/elkarbackup
+
 RUN chmod u+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD []
@@ -125,7 +128,8 @@ CMD []
 VOLUME /app/backups
 EXPOSE 80
 
-LABEL maintainer="Xabi Ezpeleta <xezpeleta@gmail.com>"
-LABEL org.opencontainers.image.source=https://github.com/elkarbackup/elkarbackup
-LABEL org.opencontainers.image.url=https://github.com/elkarbackup/elkarbackup/blob/master/docker/README.md
-LABEL org.opencontainers.image.documentation=https://github.com/elkarbackup/elkarbackup/blob/master/docker/README.md
+LABEL maintainer="Andreas Thienemann <andreas@bawue.net>"
+LABEL org.opencontainers.image.description="ixs' Elkarbackup fork"
+LABEL org.opencontainers.image.source=https://github.com/ixs/elkarbackup
+LABEL org.opencontainers.image.url=https://github.com/ixs/elkarbackup/blob/master/docker/README.md
+LABEL org.opencontainers.image.documentation=https://github.com/ixs/elkarbackup/blob/master/docker/README.md

@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   elkarbackup:
     build:
@@ -13,9 +11,10 @@ services:
       DATABASE_USER: "root"
       DATABASE_PASSWORD: "root"
       SYMFONY__DATABASE__PASSWORD: "root"
-    
+      SYMFONY_PHPUNIT_VERSION: "8.5.34"
+
   db:
-    image: mysql:5.7.22
+    image: mariadb:lts
     environment:
       MYSQL_ROOT_PASSWORD: "root"
 
