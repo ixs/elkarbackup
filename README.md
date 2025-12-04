@@ -1,7 +1,7 @@
 # Elkarbackup
 
-[![Test](https://github.com/elkarbackup/elkarbackup/actions/workflows/run-tests.yml/badge.svg)](https://github.com/elkarbackup/elkarbackup/actions/workflows/run-tests.yml)
-[![Docker images](https://github.com/elkarbackup/elkarbackup/actions/workflows/publish-docker-images.yml/badge.svg)](https://github.com/elkarbackup/elkarbackup/actions/workflows/publish-docker-images.yml)
+[![Test](https://github.com/ixs/elkarbackup/actions/workflows/run-tests.yml/badge.svg)](https://github.com/ixs/elkarbackup/actions/workflows/run-tests.yml)
+[![Docker images](https://github.com/ixs/elkarbackup/actions/workflows/publish-docker-images.yml/badge.svg)](https://github.com/ixs/elkarbackup/actions/workflows/publish-docker-images.yml)
 
 ## What is it?
 ElkarBackup is a free open-source backup solution based on RSync/RSnapshot
