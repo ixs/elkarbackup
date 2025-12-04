@@ -85,8 +85,8 @@ RUN curl -sL -o diskus.deb https://github.com/sharkdp/diskus/releases/download/v
 
 # Rsnapshot package has been removed in Bullsey
 # We need to download and install it manually
-ENV RSNAPSHOT_VERSION 1.5.1-1
-ENV RSNAPSHOT_SHA256 bad43983cc8662fa9b9b0fa452636b42b10587c110751bde8dcdb0a63ab6a887
+ENV RSNAPSHOT_VERSION=1.5.1-1
+ENV RSNAPSHOT_SHA256=bad43983cc8662fa9b9b0fa452636b42b10587c110751bde8dcdb0a63ab6a887
 RUN set -ex; \
       curl -s -O -J http://ftp.debian.org/debian/pool/main/r/rsnapshot/rsnapshot_${RSNAPSHOT_VERSION}_all.deb; \
       echo "${RSNAPSHOT_SHA256} rsnapshot_${RSNAPSHOT_VERSION}_all.deb" \
