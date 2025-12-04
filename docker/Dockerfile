@@ -95,7 +95,7 @@ RUN set -ex; \
       rm rsnapshot_${RSNAPSHOT_VERSION}_all.deb
 
 # Download and install composer
-COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
 
 COPY --from=0 /app /app
 
