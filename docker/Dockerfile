@@ -63,19 +63,16 @@ RUN set -ex; \
 ##
 
 
-FROM php:7.3-apache-buster
-
-RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
-      sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
-      echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
-
+FROM php:7.3-apache
 RUN apt-get update && apt-get install -y \
       default-mysql-client \
       acl \
-      rsnapshot \
       sudo \
       git \
       zip \
+      rsync \
+      logrotate \
+      liblchown-perl \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install \
       pdo_mysql \
@@ -85,6 +82,17 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sL -o diskus.deb https://github.com/sharkdp/diskus/releases/download/v0.8.0/diskus_0.8.0_$(dpkg --print-architecture).deb && \
   dpkg -i diskus.deb && \
   rm -f diskus.deb
+
+# Rsnapshot package has been removed in Bullsey
+# We need to download and install it manually
+ENV RSNAPSHOT_VERSION 1.5.1-1
+ENV RSNAPSHOT_SHA256 bad43983cc8662fa9b9b0fa452636b42b10587c110751bde8dcdb0a63ab6a887
+RUN set -ex; \
+      curl -s -O -J http://ftp.debian.org/debian/pool/main/r/rsnapshot/rsnapshot_${RSNAPSHOT_VERSION}_all.deb; \
+      echo "${RSNAPSHOT_SHA256} rsnapshot_${RSNAPSHOT_VERSION}_all.deb" \
+      | sha256sum -c -; \
+      apt install ./rsnapshot_${RSNAPSHOT_VERSION}_all.deb; \
+      rm rsnapshot_${RSNAPSHOT_VERSION}_all.deb
 
 # Download and install composer
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
